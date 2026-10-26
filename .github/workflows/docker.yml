@@ -1,0 +1,78 @@
+# ── Beanbot — GitHub Actions: Docker Build & Push ─────────────────────────────
+# Trigger: elke push naar 'main'
+# Resultaat: image gepusht naar Docker Hub als:
+#   deglimlachfabriek/beanbot:latest
+#   deglimlachfabriek/beanbot:<git-sha>
+#
+# Vereiste GitHub Secrets (stel in via repo → Settings → Secrets → Actions):
+#   DOCKERHUB_USERNAME  — je Docker Hub gebruikersnaam
+#   DOCKERHUB_TOKEN     — Docker Hub Access Token (niet je wachtwoord!)
+# ──────────────────────────────────────────────────────────────────────────────
+
+name: Docker Build & Push
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    name: Bouw en publiceer Docker-image
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Haal de broncode op
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Stel QEMU in voor multi-platform builds (optioneel: linux/arm64 voor Raspberry Pi)
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      # 3. Docker Buildx voor geavanceerde build-opties
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 4. Log in op Docker Hub (alleen bij push naar main, niet bij pull requests)
+      - name: Log in op Docker Hub
+        if: github.event_name == 'push'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 5. Genereer image-tags (latest + git-sha voor traceerbaarheid)
+      - name: Docker metadata (tags en labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/beanbot
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,prefix=,format=short
+
+      # 6. Bouw en push de image
+      - name: Bouw en push Docker-image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name == 'push' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # Gebruik GitHub Actions cache om builds te versnellen
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # 7. Samenvatting in de workflow-log
+      - name: Samenvatting
+        if: github.event_name == 'push'
+        run: |
+          echo "### Beanbot image gepubliceerd!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Tags:**" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.meta.outputs.tags }}" | tr ',' '\n' | sed 's/^/- /' >> $GITHUB_STEP_SUMMARY

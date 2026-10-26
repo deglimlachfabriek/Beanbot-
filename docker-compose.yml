@@ -1,0 +1,31 @@
+# ── Beanbot — docker-compose.yml ──────────────────────────────────────────────
+# Lokaal draaien:  docker compose up
+# Stoppen:         docker compose down
+# Logs bekijken:   docker compose logs -f
+# ──────────────────────────────────────────────────────────────────────────────
+
+services:
+  beanbot:
+    build: .
+    image: deglimlachfabriek/beanbot:latest
+    container_name: beanbot
+    restart: unless-stopped
+
+    # Laad geheimen uit .env (zie .env.example)
+    env_file:
+      - .env
+
+    # Optioneel: herstart automatisch bij crash
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 5
+        delay: 10s
+
+    # Gezondheidscontrole: kijk of het Python-proces nog loopt
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
