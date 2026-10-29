@@ -28,6 +28,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Kopieer de rest van de broncode
 COPY bot.py .
 
+# Draai niet als root: een aparte gebruiker met minimale rechten
+RUN useradd --create-home --uid 10001 botuser
+USER botuser
+
 # Geen poort nodig: bot gebruikt long-polling (geen webhook)
 # Start de bot
 CMD ["python", "bot.py"]

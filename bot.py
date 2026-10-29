@@ -5,6 +5,8 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 
 # Schakel logging in om fouten veilig te monitoren
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+# Voorkom dat de HTTP-bibliotheek de bot-token (in de URL) in de logs schrijft
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 # Welkomstcommando voor gebruikers (/start)
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
