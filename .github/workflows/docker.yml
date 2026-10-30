@@ -60,7 +60,7 @@ jobs:
 
       # 6. Bouw en push de image
       - name: Bouw en push Docker-image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: .
           platforms: linux/amd64,linux/arm64
