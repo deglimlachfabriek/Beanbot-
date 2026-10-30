@@ -1,31 +1,53 @@
-# Beanbot-# 🤖 Beanbot — Powered by De Glimlach Fabriek
+# 🤖 BoonesBot — Powered by De Glimlach Fabriek
 
-**Beanbot** is een slimme, privacy-bewuste AI-assistent die projecten organiseert, dagelijkse communicatie automatiseert en gevoelige data beschermt. Dit project is speciaal ontworpen om non-profits, vrijwilligersorganisaties en maatschappelijke initiatieven te ondersteunen met krachtige, veilige en gratis AI-technologie.
-
----
-
-## 🌟 Kernfuncties (MVP)
-* **Privacy-First AI:** Verwerkt informatie lokaal of via zwaar beveiligde endpoints, zonder dat jouw data wordt doorverkocht.
-* **Slimme Projectassistent:** Automatiseert taken, maakt dagplanningen en houdt to-do lijsten bij.
-* **Eenvoudige Integratie:** Werkt naadloos samen met communicatiekanalen zoals Telegram en WhatsApp.
+**BoonesBot** wordt een assistent voor non-profits, vrijwilligersorganisaties en maatschappelijke initiatieven. Het doel is om dagelijkse communicatie en administratie te ondersteunen, met privacy als uitgangspunt.
 
 ---
 
-## 🛠️ Status & Roadmap
-Dit project is momenteel in actieve ontwikkeling (Pre-Alpha / MVP fase).
+## Huidige stand (Pre-Alpha / MVP)
+
+Wat de bot nu doet:
+* Antwoordt op `/start` en `/id` (toont je Telegram-ID).
+* Herhaalt tekstberichten als test van de verbinding.
+* Kan beperkt worden tot opgegeven gebruikers via `ALLOWED_USER_IDS`.
+
+Wat er nog niet is: AI-antwoorden, projectplanning, taakbeheer en WhatsApp. Dat staat op de roadmap.
+
+---
+
+## Privacy
+
+* De bot slaat geen berichten op en schrijft de inhoud van berichten niet naar de logs.
+* Gesprekken met een Telegram-bot lopen via de servers van Telegram en zijn niet end-to-end versleuteld. Deel er geen gevoelige persoonsgegevens mee.
+* Zet `ALLOWED_USER_IDS` in je `.env`, zodat alleen de personen die je kiest de bot kunnen gebruiken.
+
+---
+
+## Starten met Docker
+
+```bash
+cp .env.example .env        # vul TELEGRAM_BOT_TOKEN in (via @BotFather)
+docker compose up -d --build
+docker compose logs -f
+```
+
+Stuur `/id` naar de bot om je Telegram-ID te zien en voeg die toe aan `ALLOWED_USER_IDS`.
+
+---
+
+## Status & Roadmap
 - [x] Accountbeveiliging & 2FA geactiveerd
-- [ ] Basis repository structuur opzetten
+- [x] Basis repository structuur en Docker-setup
 - [ ] Eerste functionele AI-workflow (Demo)
 - [ ] Landing page & Sponsor-pitch lancering
 
 ---
 
-## 🤝 Bijdragen of Sponsor Worden?
-Wij geloven in de kracht van open-source en maatschappelijke impact. Wil je als AI-talent meebouwen, of wil je dit project financieel/facilitair steunen als sponsor?
+## Bijdragen of sponsor worden?
+Wil je als AI-talent meebouwen, of dit project financieel of praktisch steunen? Open een Issue in deze repository.
 
 * **Organisatie:** De Glimlach Fabriek
-* **Contact:** [JOUW EMAILADRES HIER]
-* **Status:** Vrijwilligers en sponsors gezocht!
+* **Status:** Vrijwilligers en sponsors gezocht
 
 ---
-*© 2026 De Glimlach Fabriek. Samen maken we geschiedenis met technologie.*
+*© 2026 De Glimlach Fabriek.*

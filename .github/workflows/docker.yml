@@ -1,8 +1,8 @@
-# ── Beanbot — GitHub Actions: Docker Build & Push ─────────────────────────────
+# ── BoonesBot — GitHub Actions: Docker Build & Push ─────────────────────────────
 # Trigger: elke push naar 'main'
 # Resultaat: image gepusht naar Docker Hub als:
-#   deglimlachfabriek/beanbot:latest
-#   deglimlachfabriek/beanbot:<git-sha>
+#   deglimlachfabriek/boonesbot:latest
+#   deglimlachfabriek/boonesbot:<git-sha>
 #
 # Vereiste GitHub Secrets (stel in via repo → Settings → Secrets → Actions):
 #   DOCKERHUB_USERNAME  — je Docker Hub gebruikersnaam
@@ -18,6 +18,9 @@ on:
   pull_request:
     branches:
       - main
+
+permissions:
+  contents: read
 
 jobs:
   build-and-push:
@@ -50,7 +53,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/beanbot
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/boonesbot
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha,prefix=,format=short
@@ -72,7 +75,7 @@ jobs:
       - name: Samenvatting
         if: github.event_name == 'push'
         run: |
-          echo "### Beanbot image gepubliceerd!" >> $GITHUB_STEP_SUMMARY
+          echo "### BoonesBot image gepubliceerd!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Tags:**" >> $GITHUB_STEP_SUMMARY
           echo "${{ steps.meta.outputs.tags }}" | tr ',' '\n' | sed 's/^/- /' >> $GITHUB_STEP_SUMMARY
