@@ -34,7 +34,7 @@ jobs:
 
       # 2. Stel QEMU in voor multi-platform builds (optioneel: linux/arm64 voor Raspberry Pi)
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
 
       # 3. Docker Buildx voor geavanceerde build-opties
       - name: Set up Docker Buildx
