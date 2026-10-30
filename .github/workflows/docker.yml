@@ -38,7 +38,7 @@ jobs:
 
       # 3. Docker Buildx voor geavanceerde build-opties
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       # 4. Log in op Docker Hub (alleen bij push naar main, niet bij pull requests)
       - name: Log in op Docker Hub
