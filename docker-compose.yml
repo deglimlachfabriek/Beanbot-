@@ -1,31 +1,30 @@
-# ── Beanbot — docker-compose.yml ──────────────────────────────────────────────
-# Lokaal draaien:  docker compose up
+# ── BoonesBot — docker-compose.yml ────────────────────────────────────────────
+# Lokaal draaien:  docker compose up -d --build
 # Stoppen:         docker compose down
 # Logs bekijken:   docker compose logs -f
 # ──────────────────────────────────────────────────────────────────────────────
 
 services:
-  beanbot:
+  boonesbot:
     build: .
-    image: deglimlachfabriek/beanbot:latest
-    container_name: beanbot
+    image: deglimlachfabriek/boonesbot:latest
+    container_name: boonesbot
+
+    # Herstart automatisch na een crash of na een herstart van de machine
     restart: unless-stopped
 
     # Laad geheimen uit .env (zie .env.example)
     env_file:
       - .env
 
-    # Optioneel: herstart automatisch bij crash
-    deploy:
-      restart_policy:
-        condition: on-failure
-        max_attempts: 5
-        delay: 10s
+    # Beperk de container tot het minimum
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
 
-    # Gezondheidscontrole: kijk of het Python-proces nog loopt
-    healthcheck:
-      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 15s
+    # Geen healthcheck: de bot gebruikt long-polling en heeft geen poort.
+    # Als het proces stopt, start Docker het opnieuw op via 'restart' hierboven.

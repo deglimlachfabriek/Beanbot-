@@ -1,15 +1,15 @@
-# ── Beanbot — De Glimlachfabriek ──────────────────────────────────────────────
+# ── BoonesBot — De Glimlachfabriek ──────────────────────────────────────────────
 # Slanke Python-container voor de Telegram-bot.
-# Bouw:  docker build -t beanbot .
-# Start: docker run --env-file .env beanbot
+# Bouw:  docker build -t boonesbot .
+# Start: docker run --env-file .env boonesbot
 # ──────────────────────────────────────────────────────────────────────────────
 
 # Gebruik een officiële, lichte Python-image (slim = geen onnodige pakketten)
 FROM python:3.12-slim
 
 # Metadata
-LABEL org.opencontainers.image.title="Beanbot"
-LABEL org.opencontainers.image.description="Privacy-first Telegram-assistent van De Glimlachfabriek"
+LABEL org.opencontainers.image.title="BoonesBot"
+LABEL org.opencontainers.image.description="Telegram-assistent van De Glimlachfabriek"
 LABEL org.opencontainers.image.source="https://github.com/deglimlachfabriek/Beanbot-"
 
 # Geen interactieve prompts tijdens installatie
