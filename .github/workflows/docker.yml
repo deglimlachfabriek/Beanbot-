@@ -51,7 +51,7 @@ jobs:
       # 5. Genereer image-tags (latest + git-sha voor traceerbaarheid)
       - name: Docker metadata (tags en labels)
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ${{ secrets.DOCKERHUB_USERNAME }}/boonesbot
           tags: |
