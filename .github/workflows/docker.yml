@@ -30,7 +30,7 @@ jobs:
     steps:
       # 1. Haal de broncode op
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # 2. Stel QEMU in voor multi-platform builds (optioneel: linux/arm64 voor Raspberry Pi)
       - name: Set up QEMU
